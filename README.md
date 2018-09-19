@@ -23,4 +23,4 @@ npm run demo
 ```bash
 npm install ra-data-firebase-client
 ```
-Check [HERE](https://github.com/aymendhaya/ra-data-firebase-client/tree/master/demo/App.js) for implementation tutorial.
+Check [HERE](https://github.com/aymendhaya/ra-data-firebase-client/blob/master/src/demo/App.js) for implementation tutorial.
