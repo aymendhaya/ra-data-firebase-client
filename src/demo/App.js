@@ -1,9 +1,9 @@
 import React from 'react';
 import { Admin, Resource } from 'react-admin';
-import { RestClient } from 'ra-data-firebase-client';
+import { RestProvider, AuthProvider } from '../lib';
 
-import { PostList, PostEdit, PostCreate } from 'ra-data-firebase-client/src/demo/Posts';
-import { UserList, UserEdit, UserCreate } from 'ra-data-firebase-client/src/demo/Users';
+import { PostList, PostEdit, PostCreate } from './Posts';
+import { UserList, UserEdit, UserCreate } from './Users';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBIuQslUV4o-_6_z_NTty8HAFtSBJ0F9is',
@@ -16,13 +16,15 @@ const firebaseConfig = {
 
 const trackedResources = [{ name: 'posts', isPublic: true }, { name: 'users', isPublic: true }];
 
-// const shouldUseAuth = !(window && window.location && window.location.search && window.location.search === '?security=0')
-
+const authConfig = {
+  userProfilePath: '/users/',
+  userAdminProp: 'isAdmin'
+};
 const App = () => (
-  <Admin dataProvider={RestClient(firebaseConfig, { trackedResources })}>
+  <Admin dataProvider={RestProvider(firebaseConfig, { trackedResources })} authProvider={AuthProvider(authConfig)}>
     <Resource name="posts" list={PostList} edit={PostEdit} create={PostCreate} />
     <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate} />
   </Admin>
 );
-// authClient={shouldUseAuth ? AuthClient : null}
+// AuthProvider={shouldUseAuth ? AuthProvider : null}
 export default App;

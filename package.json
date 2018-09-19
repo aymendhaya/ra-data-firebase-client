@@ -1,12 +1,12 @@
 {
   "name": "ra-data-firebase-client",
-  "version": "0.0.2",
+  "version": "0.0.13",
   "description": "Firebase Client for react-admin",
   "main": "build/index.js",
   "jsnext:main": "es/index.js",
   "module": "es/index.js",
   "directories": {
-    "lib": "build"
+    "lib": "lib"
   },
   "keywords": [
     "react-admin",
@@ -30,12 +30,6 @@
   },
   "author": "Aymen Dhaya <aymendhaya@gmail.com>",
   "license": "ISC",
-  "files": [
-    "LICENSE",
-    "*.md",
-    "lib",
-    "src"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/aymendhaya/ra-data-firebase-client.git"

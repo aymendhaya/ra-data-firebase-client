@@ -11,12 +11,13 @@ const baseConfig = {
     if (auth) {
       const snapshot = await firebase
         .database()
-        .ref(config.userProfilePath + auth.uid)
+        .ref(config.userProfilePath + auth.user.uid)
         .once('value');
       const profile = snapshot.val();
+      console.log(snapshot.val());
 
       if (profile && profile[config.userAdminProp]) {
-        const firebaseToken = auth.getIdToken();
+        const firebaseToken = auth.user.getIdToken();
         let user = { auth, profile, firebaseToken };
         localStorage.setItem(config.localStorageTokenName, firebaseToken);
         return user;

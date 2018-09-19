@@ -1,5 +1,5 @@
-import RestClient from './restClient';
-import AuthClient from './authClient';
+import RestProvider from './RestProvider';
+import AuthProvider from './AuthProvider';
 import * as RAFirebaseMethods from './methods';
 
-export { RestClient, AuthClient, RAFirebaseMethods };
+export { RestProvider, AuthProvider, RAFirebaseMethods };
