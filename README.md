@@ -24,3 +24,7 @@ npm run demo
 npm install ra-data-firebase-client
 ```
 Check [HERE](https://github.com/aymendhaya/ra-data-firebase-client/blob/master/src/demo/App.js) for implementation tutorial.
+
+## ra-data-firebase-client now support `base64` image uploading. 
+
+Check [HERE](https://github.com/aymendhaya/ra-data-firebase-client/blob/master/src/demo/App.js) for implementation tutorial.

@@ -17,7 +17,7 @@ const BaseConfiguration = {
   }
 };
 
-export default (firebaseConfig = {}, options = {}) => {
+const RestProvider = (firebaseConfig = {}, options = {}) => {
   options = Object.assign({}, BaseConfiguration, options);
   const { timestampFieldNames, trackedResources, initialQuerytimeout } = options;
 
@@ -163,8 +163,13 @@ export default (firebaseConfig = {}, options = {}) => {
               upload(field, params.data, itemId, resourceName, resourcesPaths[resourceName])
             )
           : [];
+        // console.log('---------------------------', params);
+        // console.log('resourceName', resourceName);
+        // console.log('resourcesPaths[resourceName]', resourcesPaths[resourceName]);
+
         const currentData = resourcesData[resourceName][itemId] || {};
         const uploadResults = await Promise.all(uploads);
+
         result = await save(
           itemId,
           params.data,
@@ -184,3 +189,5 @@ export default (firebaseConfig = {}, options = {}) => {
     }
   };
 };
+
+export default RestProvider;

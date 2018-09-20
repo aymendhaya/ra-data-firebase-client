@@ -12,7 +12,9 @@ import {
   ReferenceInput,
   SelectInput,
   SimpleForm,
-  TextInput
+  TextInput,
+  ImageInput,
+  ImageField
 } from 'react-admin';
 
 export const PostList = props => (
@@ -38,6 +40,9 @@ export const PostEdit = props => (
       </ReferenceInput>
       <TextInput source="title" />
       <LongTextInput source="body" />
+      <ImageInput source="image" label="Related Image" accept="image/*" multiple>
+        <ImageField source="src" title="title" />
+      </ImageInput>
     </SimpleForm>
   </Edit>
 );
