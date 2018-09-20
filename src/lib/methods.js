@@ -1,5 +1,4 @@
-import * as storage from 'firebase/storage';
-import * as database from 'firebase/database';
+import firebase from 'firebase';
 import sortBy from 'sort-by';
 
 import { CREATE } from './reference';
@@ -23,7 +22,8 @@ const upload = async (fieldName, submitedData, id, resourceName, resourcePath) =
 
   const result = {};
   if (file && rawFile && rawFile.name) {
-    const ref = storage()
+    const ref = firebase.firebase
+      .storage()
       .ref()
       .child(`${resourcePath}/${id}/${fieldName}`);
     const snapshot = await ref.put(rawFile);
@@ -73,7 +73,8 @@ const save = async (
     data.id = id;
   }
 
-  await database()
+  await firebase
+    .database()
     .ref(`${resourcePath}/${data.key}`)
     .update(firebaseSaveFilter(data));
   return { data };
@@ -82,14 +83,16 @@ const save = async (
 const del = async (id, resourceName, resourcePath, uploadFields) => {
   if (uploadFields.length) {
     uploadFields.map(fieldName =>
-      storage()
+      firebase
+        .storage()
         .ref()
         .child(`${resourcePath}/${id}/${fieldName}`)
         .delete()
     );
   }
 
-  await database()
+  await firebase
+    .database()
     .ref(`${resourcePath}/${id}`)
     .remove();
   return { data: id };
@@ -98,7 +101,8 @@ const del = async (id, resourceName, resourcePath, uploadFields) => {
 const getItemID = (params, type, resourceName, resourcePath, resourceData) => {
   let itemId = params.data.id || params.id || params.data.key || params.key;
   if (!itemId) {
-    itemId = database()
+    itemId = firebase
+      .database()
       .ref()
       .child(resourcePath)
       .push().key;
