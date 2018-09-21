@@ -14,7 +14,6 @@ const baseConfig = {
         .ref(config.userProfilePath + auth.user.uid)
         .once('value');
       const profile = snapshot.val();
-      console.log(snapshot.val());
 
       if (profile && profile[config.userAdminProp]) {
         const firebaseToken = auth.user.getIdToken();

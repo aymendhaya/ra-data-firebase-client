@@ -1,6 +1,6 @@
 {
   "name": "ra-data-firebase-client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Firebase Client for react-admin",
   "main": "build/index.js",
   "jsnext:main": "es/index.js",
@@ -93,7 +93,7 @@
     "firebase": "^5.5.0",
     "prop-types": "^15.6.0",
     "react": "16.5.0",
-    "react-admin": "^2.3.1",
+    "react-admin": "^2.3.2",
     "react-dom": "^16.5.0",
     "sort-by": "^1.2.0"
   }

@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import Methods from './methods';
 
-import { GET_LIST, GET_ONE, GET_MANY, GET_MANY_REFERENCE, CREATE, UPDATE, DELETE } from './reference';
+import { GET_LIST, GET_ONE, GET_MANY, GET_MANY_REFERENCE, CREATE, UPDATE, DELETE, DELETE_MANY } from './reference';
 
 /**
  * @param {string[]|Object[]} trackedResources Array of resource names or array of Objects containing name and
@@ -39,6 +39,7 @@ const RestProvider = (firebaseConfig = {}, options = {}) => {
   const getItemID = options.getItemID || Methods.getItemID;
   const getOne = options.getOne || Methods.getOne;
   const getMany = options.getMany || Methods.getMany;
+  const delMany = options.delMany || Methods.delMany;
 
   const firebaseSaveFilter = options.firebaseSaveFilter ? options.firebaseSaveFilter : data => data;
   const firebaseGetFilter = options.firebaseGetFilter ? options.firebaseGetFilter : data => data;
@@ -55,7 +56,6 @@ const RestProvider = (firebaseConfig = {}, options = {}) => {
     }
 
     const { name, path, uploadFields } = resource;
-
     if (!resource.name) {
       throw new Error(`name is missing from resource ${resource}`);
     }
@@ -155,6 +155,9 @@ const RestProvider = (firebaseConfig = {}, options = {}) => {
         result = await del(params.id, resourceName, resourcesPaths[resourceName], uploadFields);
         return result;
 
+      case DELETE_MANY:
+        result = await delMany(params.ids, resourceName, resourcesData[resourceName]);
+        return result;
       case UPDATE:
       case CREATE:
         let itemId = getItemID(params, type, resourceName, resourcesPaths[resourceName], resourcesData[resourceName]);
@@ -163,10 +166,6 @@ const RestProvider = (firebaseConfig = {}, options = {}) => {
               upload(field, params.data, itemId, resourceName, resourcesPaths[resourceName])
             )
           : [];
-        // console.log('---------------------------', params);
-        // console.log('resourceName', resourceName);
-        // console.log('resourcesPaths[resourceName]', resourcesPaths[resourceName]);
-
         const currentData = resourcesData[resourceName][itemId] || {};
         const uploadResults = await Promise.all(uploads);
 

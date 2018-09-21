@@ -93,8 +93,6 @@ const save = async (
   isNew,
   timestampFieldNames
 ) => {
-  // data.image.src = convertFileToBase64(data.image.src);
-  console.log('data', data);
   if (uploadResults) {
     uploadResults.map(uploadResult => (uploadResult ? Object.assign(data, uploadResult) : false));
   }
@@ -135,6 +133,16 @@ const del = async (id, resourceName, resourcePath, uploadFields) => {
     .ref(`${resourcePath}/${id}`)
     .remove();
   return { data: id };
+};
+
+const delMany = async (ids, resourceName, previousData) => {
+  await ids.map(id =>
+    firebase
+      .database()
+      .ref(`${resourceName}/${id}`)
+      .remove()
+  );
+  return { data: ids };
 };
 
 const getItemID = (params, type, resourceName, resourcePath, resourceData) => {
@@ -236,6 +244,7 @@ export default {
   upload,
   save,
   del,
+  delMany,
   getItemID,
   getOne,
   getMany,
