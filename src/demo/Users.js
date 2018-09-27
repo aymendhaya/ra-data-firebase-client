@@ -1,5 +1,16 @@
 import React from 'react';
-import { List, Edit, Create, Datagrid, TextField, EditButton, SimpleForm, TextInput } from 'react-admin';
+import {
+  List,
+  Edit,
+  Create,
+  Datagrid,
+  TextField,
+  EditButton,
+  SimpleForm,
+  TextInput,
+  ImageInput,
+  ImageField
+} from 'react-admin';
 
 export const UserList = props => (
   <List title="All users" {...props}>
@@ -20,6 +31,9 @@ export const UserCreate = props => (
       <TextInput source="name" />
       <TextInput source="username" />
       <TextInput source="email" />
+      <ImageInput source="image" label="Related Image" accept="image/*" multiple>
+        <ImageField source="src" title="title" />
+      </ImageInput>
     </SimpleForm>
   </Create>
 );
@@ -31,6 +45,9 @@ export const UserEdit = props => (
       <TextInput source="name" />
       <TextInput source="username" />
       <TextInput source="email" />
+      <ImageInput source="image" label="Related Image" accept="image/*" multiple>
+        <ImageField source="src" title="title" />
+      </ImageInput>
     </SimpleForm>
   </Edit>
 );

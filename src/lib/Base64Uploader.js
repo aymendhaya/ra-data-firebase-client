@@ -8,7 +8,7 @@ const convertFileToBase64 = file =>
   });
 
 const addUploadFeature = requestHandler => (type, resource, params) => {
-  if (type === 'UPDATE' && resource === 'posts') {
+  if (type === 'UPDATE') {
     if (params.data.image && params.data.image.length) {
       const formerPictures = params.data.image.filter(p => !(p.rawFile instanceof File));
       const newPictures = params.data.image.filter(p => p.rawFile instanceof File);
