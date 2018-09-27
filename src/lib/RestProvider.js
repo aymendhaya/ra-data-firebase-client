@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import Methods from './methods';
 
-import { GET_LIST, GET_ONE, GET_MANY, GET_MANY_REFERENCE, CREATE, UPDATE, DELETE, DELETE_MANY } from './reference';
+import { GET_LIST, GET_ONE, GET_MANY, GET_MANY_REFERENCE, CREATE, UPDATE, DELETE, DELETE_MANY } from 'react-admin';
 
 /**
  * @param {string[]|Object[]} trackedResources Array of resource names or array of Objects containing name and
@@ -40,6 +40,7 @@ const RestProvider = (firebaseConfig = {}, options = {}) => {
   const getOne = options.getOne || Methods.getOne;
   const getMany = options.getMany || Methods.getMany;
   const delMany = options.delMany || Methods.delMany;
+  const getList = options.getList || Methods.getList;
 
   const firebaseSaveFilter = options.firebaseSaveFilter ? options.firebaseSaveFilter : data => data;
   const firebaseGetFilter = options.firebaseGetFilter ? options.firebaseGetFilter : data => data;
@@ -141,25 +142,38 @@ const RestProvider = (firebaseConfig = {}, options = {}) => {
     let result = null;
     switch (type) {
       case GET_LIST:
+        // console.log('GET_LIST');
+        result = await getList(params, resourceName, resourcesData[resourceName]);
+        return result;
       case GET_MANY:
+        result = await getMany(params, resourceName, resourcesData[resourceName]);
+        // console.log('GET_MANY');
+        console.log('reselut', result);
+        return result;
+
       case GET_MANY_REFERENCE:
+        // console.log('GET_MANY_REFERENCE');
         result = await getMany(params, resourceName, resourcesData[resourceName]);
         return result;
 
       case GET_ONE:
+        // console.log('GET_ONE');
         result = await getOne(params, resourceName, resourcesData[resourceName]);
         return result;
 
       case DELETE:
+        // console.log('DELETE');
         const uploadFields = resourcesUploadFields[resourceName] ? resourcesUploadFields[resourceName] : [];
         result = await del(params.id, resourceName, resourcesPaths[resourceName], uploadFields);
         return result;
 
       case DELETE_MANY:
+        // console.log('DELETE_MANY');
         result = await delMany(params.ids, resourceName, resourcesData[resourceName]);
         return result;
       case UPDATE:
       case CREATE:
+        console.log('UPDATE/CREATE');
         let itemId = getItemID(params, type, resourceName, resourcesPaths[resourceName], resourcesData[resourceName]);
         const uploads = resourcesUploadFields[resourceName]
           ? resourcesUploadFields[resourceName].map(field =>

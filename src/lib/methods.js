@@ -1,7 +1,6 @@
 import firebase from 'firebase';
 import sortBy from 'sort-by';
-
-import { CREATE } from './reference';
+import { CREATE } from 'react-admin';
 
 const convertFileToBase64 = file =>
   new Promise((resolve, reject) => {
@@ -174,55 +173,10 @@ const getOne = (params, resourceName, resourceData) => {
   }
 };
 
-const getMany = (params, resourceName, resourceData) => {
-  let ids = [];
-  let data = [];
-  let total = 0;
-
-  if (params.ids) {
-    /** GET_MANY */
-    params.ids.map(key => {
-      if (resourceData[key]) {
-        ids.push(key);
-        data.push(resourceData[key]);
-        total++;
-      }
-      return total;
-    });
-  } else if (params.pagination) {
-    /** GET_LIST / GET_MANY_REFERENCE */
+const getList = (params, resourceName, resourceData) => {
+  if (params.pagination) {
     let values = [];
-
-    // Copy the filter params so we can modify for GET_MANY_REFERENCE support.
-    const filter = Object.assign({}, params.filter);
-
-    if (params.target && params.id) {
-      filter[params.target] = params.id;
-    }
-
-    const filterKeys = Object.keys(filter);
-    /* TODO Must have a better way */
-    if (filterKeys.length) {
-      Object.values(resourceData).map(value => {
-        let filterIndex = 0;
-        while (filterIndex < filterKeys.length) {
-          let property = filterKeys[filterIndex];
-          if (property !== 'q' && value[property] !== filter[property]) {
-            return filterIndex;
-          } else if (property === 'q') {
-            if (JSON.stringify(value).indexOf(filter['q']) === -1) {
-              return filterIndex;
-            }
-          }
-          filterIndex++;
-        }
-        values.push(value);
-        return filterIndex;
-      });
-    } else {
-      values = Object.values(resourceData);
-    }
-
+    values = Object.values(resourceData);
     if (params.sort) {
       values.sort(sortBy(`${params.sort.order === 'ASC' ? '-' : ''}${params.sort.field}`));
     }
@@ -231,13 +185,18 @@ const getMany = (params, resourceName, resourceData) => {
     const { page, perPage } = params.pagination;
     const _start = (page - 1) * perPage;
     const _end = page * perPage;
-    data = values.slice(_start, _end);
-    ids = keys.slice(_start, _end);
-    total = values.length;
+    const data = values ? values.slice(_start, _end) : [];
+    const ids = keys.slice(_start, _end) || [];
+    const total = values ? values.length : 0;
     return { data, ids, total };
   } else {
     throw new Error('Error processing request');
   }
+};
+
+const getMany = (params, resourceName, resourceData) => {
+  let data = Object.values(resourceData).filter(item => params.ids.indexOf(item.id) > -1);
+  return { data, ids: params.ids };
 };
 
 export default {
@@ -247,6 +206,7 @@ export default {
   delMany,
   getItemID,
   getOne,
+  getList,
   getMany,
   addUploadFeature,
   convertFileToBase64

@@ -1,5 +1,5 @@
 /* globals localStorage */
-import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_CHECK } from './reference';
+import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_CHECK } from 'react-admin';
 import firebase from 'firebase';
 
 const baseConfig = {
@@ -7,7 +7,6 @@ const baseConfig = {
   userAdminProp: 'isAdmin',
   localStorageTokenName: 'RAFirebaseClientToken',
   handleAuthStateChange: async (auth, config) => {
-    console.log(`auth`, auth);
     if (auth) {
       const snapshot = await firebase
         .database()
