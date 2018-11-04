@@ -25,6 +25,18 @@ npm install ra-data-firebase-client
 ```
 Check [HERE](https://github.com/aymendhaya/ra-data-firebase-client/blob/master/src/demo/App.js) for implementation tutorial.
 
+
+
+For AuthProvider, dont forget to add the user UID to your firebase DB under /users matching the following structure:
+
+```bash
+"users": {
+    "UID": {
+        "isAdmin": true
+    }
+}
+```
+
 ## ra-data-firebase-client now support `base64` image uploading. 
 
 Check [HERE](https://github.com/aymendhaya/ra-data-firebase-client/blob/master/src/demo/App.js) for implementation tutorial.
