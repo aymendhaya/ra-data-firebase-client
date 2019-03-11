@@ -1,6 +1,6 @@
 {
-  "name": "ra-data-firebase-client",
-  "version": "0.1.6",
+  "name": "ra-data-firebase-client-search",
+  "version": "0.1.7",
   "description": "Firebase Client for react-admin",
   "main": "build/index.js",
   "jsnext:main": "es/index.js",
