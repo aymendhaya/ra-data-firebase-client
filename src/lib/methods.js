@@ -181,19 +181,19 @@ const getList = (params, resourceName, resourceData) => {
     filters.forEach(([filterKey, filterValue]) => {
       valuesToReturn = valuesToReturn.filter(value => {
         if (value && value[filterKey] && typeof value[filterKey] !== 'object') {
-          const propsToFilterToString = `${value[filterKey]}`
-          if (propsToFilterToString.startsWith(`${filterValue}`)) {
-            return true
+          const propsToFilter = `${value[filterKey]}`.toLowerCase();
+          if (propsToFilter.includes(`${filterValue}`.toLowerCase())) {
+            return true;
           }
         }
-        return false
-      })
-    })
+        return false;
+      });
+    });
   }
 
   if (params.pagination) {
     let values = [];
-    values = valuesToReturn
+    values = valuesToReturn;
     if (params.sort) {
       values.sort(sortBy(`${params.sort.order === 'ASC' ? '-' : ''}${params.sort.field}`));
     }
