@@ -174,9 +174,26 @@ const getOne = (params, resourceName, resourceData) => {
 };
 
 const getList = (params, resourceName, resourceData) => {
+  let valuesToReturn = Object.values(resourceData);
+
+  if (params.filter) {
+    const filters = Object.entries(params.filter);
+    filters.forEach(([filterKey, filterValue]) => {
+      valuesToReturn = valuesToReturn.filter(value => {
+        if (value && value[filterKey] && typeof value[filterKey] !== 'object') {
+          const propsToFilter = `${value[filterKey]}`.toLowerCase();
+          if (propsToFilter.includes(`${filterValue}`.toLowerCase())) {
+            return true;
+          }
+        }
+        return false;
+      });
+    });
+  }
+
   if (params.pagination) {
     let values = [];
-    values = Object.values(resourceData);
+    values = valuesToReturn;
     if (params.sort) {
       values.sort(sortBy(`${params.sort.order === 'ASC' ? '-' : ''}${params.sort.field}`));
     }
