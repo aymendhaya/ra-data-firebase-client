@@ -1,0 +1,8 @@
+{
+  "short_name": "ra-data-firebase-client",
+  "name": "ra-data-firebase-client",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
